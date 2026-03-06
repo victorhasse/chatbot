@@ -29,6 +29,11 @@
 	</category>
 
 	<category>
+		<pattern> TESTE</pattern>
+		<template> Vou me matar hoje</template>
+	</category>
+
+	<category>
     <pattern>QUAL E O MEU NOME</pattern>
     <template>
         <condition name="userName">
