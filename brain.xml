@@ -1,0 +1,43 @@
+<aiml>
+	<category>
+		<pattern>OLA</pattern>
+		<template>
+			<random>
+				<li>Olá! Como posso ajudar você hoje?</li>
+				<li>Oi! Em que posso ser útil?</li>
+				<li>Olá! O que você gostaria de conversar?</li>
+				<li>Olá, como vai você?</li>
+			</random>
+		</template>
+	</category>
+
+	<category>
+		<pattern>TUDO BEM</pattern>
+		<template>Que bom ouvir isso! Em que posso te ajudar?</template>
+	</category>
+
+	<category>
+		<pattern>COMO VOCE SE CHAMA</pattern>
+		<template>Eu sou um chatbot AIML, não tenho um nome específico. Mas você pode me chamar de Chatbot!</template>
+	</category>
+
+	<category>
+		<pattern>MEU NOME E *</pattern>
+		<template>É um prazer te conhecer.
+			<set name="userName"><star/></set>
+		</template>
+	</category>
+
+	<category>
+    <pattern>QUAL E O MEU NOME</pattern>
+    <template>
+        <condition name="userName">
+            <li value="">Você ainda não me disse seu nome.</li>
+            <li>Seu nome é <get name="userName"/>.</li>
+        </condition>
+    </template>
+	</category>
+
+	
+
+</aiml>
