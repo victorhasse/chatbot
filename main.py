@@ -23,3 +23,5 @@ while True:  # Executa o laço indefinidamente
     message = filter(message)  # Limpa a mensagem entrada pelo usuário
     response = k.respond(message)  # Envia ao motor e retorna a resposta
     print(response)  # Imprime a resposta
+
+## python3 main.py brain.xml -> para iniciar.

@@ -1,48 +1,302 @@
 <aiml>
-	<category>
-		<pattern>OLA</pattern>
-		<template>
-			<random>
-				<li>Olá! Como posso ajudar você hoje?</li>
-				<li>Oi! Em que posso ser útil?</li>
-				<li>Olá! O que você gostaria de conversar?</li>
-				<li>Olá, como vai você?</li>
-			</random>
-		</template>
-	</category>
 
-	<category>
-		<pattern>TUDO BEM</pattern>
-		<template>Que bom ouvir isso! Em que posso te ajudar?</template>
-	</category>
-
-	<category>
-		<pattern>COMO VOCE SE CHAMA</pattern>
-		<template>Eu sou um chatbot AIML, não tenho um nome específico. Mas você pode me chamar de Chatbot!</template>
-	</category>
-
-	<category>
-		<pattern>MEU NOME E *</pattern>
-		<template>É um prazer te conhecer.
-			<set name="userName"><star/></set>
-		</template>
-	</category>
-
-	<category>
-		<pattern> TESTE</pattern>
-		<template> Vou me matar hoje</template>
-	</category>
-
-	<category>
-    <pattern>QUAL E O MEU NOME</pattern>
+  <!-- ===== SAUDACAO ===== -->
+  <category>
+    <pattern>OLA</pattern>
     <template>
-        <condition name="userName">
-            <li value="">Você ainda não me disse seu nome.</li>
-            <li>Seu nome é <get name="userName"/>.</li>
-        </condition>
+      <think><set name="estado">MENU</set></think>
+      Ola, sou o SigmaBOT, em que posso ajudar?
+      1 - Comprar Produto
+      2 - Ajuda
     </template>
-	</category>
+  </category>
 
-	
+  <category>
+    <pattern>OI</pattern>
+    <template><srai>OLA</srai></template>
+  </category>
+
+  <category>
+    <pattern>MENU</pattern>
+    <template><srai>OLA</srai></template>
+  </category>
+
+  <category>
+    <pattern>VOLTAR</pattern>
+    <template><srai>OLA</srai></template>
+  </category>
+
+  <!-- ===== MENU PRINCIPAL ===== -->
+  <category>
+    <pattern>COMPRAR PRODUTO</pattern>
+    <template>
+      <think><set name="estado">LOGIN</set></think>
+      Voce esta logado no app ou site?
+      - Digite SIM para continuar
+      - Digite NAO para fazer login ou cadastro
+    </template>
+  </category>
+
+  <category>
+    <pattern>AJUDA MENU</pattern>
+    <template>
+      <think><set name="estado">AJUDA</set></think>
+      Como poderia te ajudar?
+      - Digite REEMBOLSO para solicitar reembolso
+      - Digite ATENDENTE para falar com atendente
+    </template>
+  </category>
+
+  <category>
+    <pattern>MENU 1</pattern>
+    <template><srai>COMPRAR PRODUTO</srai></template>
+  </category>
+
+  <category>
+    <pattern>MENU 2</pattern>
+    <template><srai>AJUDA MENU</srai></template>
+  </category>
+
+  <category>
+    <pattern>1</pattern>
+    <template><srai>MENU 1</srai></template>
+  </category>
+
+  <category>
+    <pattern>2</pattern>
+    <template><srai>MENU 2</srai></template>
+  </category>
+
+  <!-- ===== SIM / NAO CONDICIONAIS ===== -->
+  <category>
+    <pattern>SIM</pattern>
+    <template>
+      <condition name="estado">
+        <li value="LOGIN"><srai>IR PARA COMPRAR</srai></li>
+        <li value="ADD CARRINHO"><srai>CONFIRMAR ADD</srai></li>
+        <li value="REEMBOLSO CONFIRM"><srai>REEMBOLSO CONFIRMAR OK</srai></li>
+        <li>Desculpe, nao entendi. Digite MENU para voltar ao inicio.</li>
+      </condition>
+    </template>
+  </category>
+
+  <category>
+    <pattern>NAO</pattern>
+    <template>
+      <condition name="estado">
+        <li value="LOGIN">
+          Para continuar, acesse o app ou site e faca seu login ou cadastro.
+          Quando estiver logado, digite LOGADO para continuar ou MENU para voltar.
+        </li>
+        <li value="ADD CARRINHO"><srai>CANCELAR ADD</srai></li>
+        <li value="REEMBOLSO CONFIRM">
+          <think><set name="estado">MENU</set></think>
+          Reembolso cancelado. Digite MENU para voltar ao inicio.
+        </li>
+        <li>Desculpe, nao entendi. Digite MENU para voltar ao inicio.</li>
+      </condition>
+    </template>
+  </category>
+
+  <category>
+    <pattern>LOGADO</pattern>
+    <template><srai>IR PARA COMPRAR</srai></template>
+  </category>
+
+  <category>
+    <pattern>IR PARA COMPRAR</pattern>
+    <template>
+      <think><set name="estado">COMPRAR</set></think>
+      Como posso te ajudar?
+      - Digite JOGOS para ver a lista de jogos
+      - Digite CARRINHO para ver seu carrinho
+    </template>
+  </category>
+
+  <!-- ===== LISTA DE JOGOS ===== -->
+  <category>
+    <pattern>JOGOS</pattern>
+    <template>
+      <think><set name="estado">JOGOS</set></think>
+      Jogos disponiveis:
+      - Digite JOGO 1 para Counter Strike 2 - R$59,90
+      - Digite JOGO 2 para Minecraft - R$129,90
+      - Digite JOGO 3 para FIFA 26 - R$249,90
+      - Digite VOLTAR para o menu principal
+    </template>
+  </category>
+
+  <category>
+    <pattern>JOGO 1</pattern>
+    <template>
+      <think><set name="jogo">Counter Strike 2</set><set name="estado">ADD CARRINHO</set></think>
+      Deseja adicionar Counter Strike 2 ao carrinho?
+      - Digite SIM para confirmar
+      - Digite NAO para voltar a lista
+    </template>
+  </category>
+
+  <category>
+    <pattern>JOGO 2</pattern>
+    <template>
+      <think><set name="jogo">Minecraft</set><set name="estado">ADD CARRINHO</set></think>
+      Deseja adicionar Minecraft ao carrinho?
+      - Digite SIM para confirmar
+      - Digite NAO para voltar a lista
+    </template>
+  </category>
+
+  <category>
+    <pattern>JOGO 3</pattern>
+    <template>
+      <think><set name="jogo">FIFA 26</set><set name="estado">ADD CARRINHO</set></think>
+      Deseja adicionar FIFA 26 ao carrinho?
+      - Digite SIM para confirmar
+      - Digite NAO para voltar a lista
+    </template>
+  </category>
+
+  <!-- ===== CARRINHO ===== -->
+  <category>
+    <pattern>CONFIRMAR ADD</pattern>
+    <template>
+      <think><set name="estado">CARRINHO</set></think>
+      <get name="jogo"/> adicionado ao carrinho!
+      O que deseja fazer?
+      - Digite JOGOS para adicionar mais jogos
+      - Digite CARRINHO para ver o carrinho e finalizar
+    </template>
+  </category>
+
+  <category>
+    <pattern>CANCELAR ADD</pattern>
+    <template>
+      <think><set name="estado">JOGOS</set></think>
+      Ok! Voltando a lista de jogos...
+      - Digite JOGO 1 para Counter Strike 2 - R$59,90
+      - Digite JOGO 2 para Minecraft - R$129,90
+      - Digite JOGO 3 para FIFA 26 - R$249,90
+      - Digite VOLTAR para o menu principal
+    </template>
+  </category>
+
+  <category>
+    <pattern>CARRINHO</pattern>
+    <template>
+      <think><set name="estado">CARRINHO</set></think>
+      Seu carrinho: <get name="jogo"/>
+      O que deseja fazer?
+      - Digite JOGOS para continuar comprando
+      - Digite PIX para pagar com Pix
+      - Digite CARTAO para pagar com Cartao
+      - Digite REMOVER para remover o item
+    </template>
+  </category>
+
+  <category>
+    <pattern>REMOVER</pattern>
+    <template>
+      <think><set name="jogo">vazio</set><set name="estado">COMPRAR</set></think>
+      Item removido do carrinho!
+      - Digite JOGOS para continuar comprando
+      - Digite MENU para voltar ao inicio
+    </template>
+  </category>
+
+  <!-- ===== PAGAMENTO ===== -->
+  <category>
+    <pattern>PIX</pattern>
+    <template>
+      <think><set name="estado">PAGAMENTO</set></think>
+      Redirecionando para pagamento via Pix...
+      Pagamento efetuado com sucesso?
+      - Digite PAGO para confirmar
+      - Digite FALHOU para reportar erro
+    </template>
+  </category>
+
+  <category>
+    <pattern>CARTAO</pattern>
+    <template>
+      <think><set name="estado">PAGAMENTO</set></think>
+      Redirecionando para pagamento via Cartao...
+      Pagamento efetuado com sucesso?
+      - Digite PAGO para confirmar
+      - Digite FALHOU para reportar erro
+    </template>
+  </category>
+
+  <category>
+    <pattern>PAGO</pattern>
+    <template>
+      <think><set name="jogo">vazio</set><set name="estado">MENU</set></think>
+      Compra finalizada com sucesso! Obrigado por comprar com o SigmaBot!
+      Digite MENU para voltar ao inicio.
+    </template>
+  </category>
+
+  <category>
+    <pattern>FALHOU</pattern>
+    <template>
+      <think><set name="estado">CARRINHO</set></think>
+      Nao foi possivel finalizar a compra. Tente novamente.
+      - Digite PIX para pagar com Pix
+      - Digite CARTAO para pagar com Cartao
+      - Digite MENU para voltar ao inicio
+    </template>
+  </category>
+
+  <!-- ===== AJUDA ===== -->
+  <category>
+    <pattern>ATENDENTE</pattern>
+    <template>
+      <think><set name="estado">MENU</set></think>
+      Para falar com um atendente, ligue: +55 (48) 99166-2017
+      Digite MENU para voltar ao inicio.
+    </template>
+  </category>
+
+  <category>
+    <pattern>REEMBOLSO</pattern>
+    <template>
+      <think><set name="estado">REEMBOLSO</set></think>
+      Qual o nome do jogo que deseja reembolsar?
+      Digite: REEMBOLSAR (nome do jogo)
+    </template>
+  </category>
+
+  <category>
+    <pattern>REEMBOLSAR *</pattern>
+    <template>
+      <think><set name="reembolso"><star/></set><set name="estado">REEMBOLSO CONFIRM</set></think>
+      Deseja reembolsar <star/>?
+      - Digite SIM para confirmar
+      - Digite NAO para cancelar
+    </template>
+  </category>
+
+  <category>
+    <pattern>REEMBOLSO CONFIRMAR OK</pattern>
+    <template>
+      <think><set name="estado">MENU</set></think>
+      Reembolso de <get name="reembolso"/> realizado com sucesso!
+      Digite MENU para voltar ao inicio.
+    </template>
+  </category>
+
+  <!-- ===== FALLBACK ===== -->
+  <category>
+    <pattern>*</pattern>
+    <template>
+      Desculpe, nao entendi. Digite MENU para voltar ao inicio.
+    </template>
+  </category>
 
 </aiml>
+
+<!--
+Comandos para testar:
+
+ola → MENU 1 → SIM → JOGOS → JOGO 1 → SIM → CARRINHO → PIX → PAGO
+ola → MENU 2 → REEMBOLSO → REEMBOLSAR Minecraft → SIM
+-->
