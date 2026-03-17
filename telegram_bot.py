@@ -1,13 +1,8 @@
 import aiml
 import unicodedata
 import re
-import os
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from dotenv import load_dotenv
-
-load_dotenv()
-TOKEN = os.getenv("TOKEN")
 
 # ===== INICIALIZA O MOTOR AIML =====
 def filter_text(text):
@@ -20,7 +15,7 @@ def filter_text(text):
 kernel = aiml.Kernel()
 kernel.learn("brain.xml")
 
-TOKEN = "8702943592:AAHlrZSaDsUlEAyzN-pFE5hnaItUOPt5Kxw"
+TOKEN = "8702943592:AAHCcqFkOBFi5yiuWPPDidgBGYY3NfpfE_w"
 
 # ===== TECLADOS =====
 def teclado_menu():
