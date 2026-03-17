@@ -1,10 +1,15 @@
 import aiml
 import unicodedata
 import re
+import os
+import sys
+from dotenv import load_dotenv
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-# ===== INICIALIZA O MOTOR AIML =====
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
+
 def filter_text(text):
     text = unicodedata.normalize("NFKD", text) \
         .encode("ASCII", "ignore") \
@@ -15,9 +20,6 @@ def filter_text(text):
 kernel = aiml.Kernel()
 kernel.learn("brain.xml")
 
-TOKEN = "8702943592:AAHCcqFkOBFi5yiuWPPDidgBGYY3NfpfE_w"
-
-# ===== TECLADOS =====
 def teclado_menu():
     return ReplyKeyboardMarkup(
         [["1 - Comprar Produto", "2 - Ajuda"]],
@@ -65,7 +67,6 @@ def teclado_ajuda():
 def teclado_vazio():
     return ReplyKeyboardRemove()
 
-# ===== ESCOLHE O TECLADO CERTO BASEADO NA RESPOSTA =====
 def escolher_teclado(resposta):
     resposta = resposta.upper()
     if "COMPRAR PRODUTO" in resposta or "AJUDA" in resposta:
@@ -88,34 +89,25 @@ def escolher_teclado(resposta):
         return teclado_sim_nao()
     return teclado_vazio()
 
-# ===== HANDLER DO /start =====
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     resposta = kernel.respond("OLA")
     teclado = escolher_teclado(resposta)
     await update.message.reply_text(resposta, reply_markup=teclado)
 
-# ===== HANDLER DAS MENSAGENS =====
 async def mensagem(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text
-
-    # Trata atalhos dos botoes do teclado
     if texto == "1 - Comprar Produto":
         texto = "MENU 1"
     elif texto == "2 - Ajuda":
         texto = "MENU 2"
-
     texto_filtrado = filter_text(texto)
     resposta = kernel.respond(texto_filtrado)
-
     if not resposta:
         resposta = "Desculpe, nao entendi. Digite MENU para voltar ao inicio."
-
     teclado = escolher_teclado(resposta)
     await update.message.reply_text(resposta, reply_markup=teclado)
 
-# ===== INICIA O BOT =====
 def main():
-    import sys
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, mensagem))
@@ -128,3 +120,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
