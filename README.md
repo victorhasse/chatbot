@@ -87,8 +87,11 @@ sigmabot/
 
 ## 📸 Demonstração
 
-> _Adicionar depois screenshots do bot funcionando no Telegram!_
-> _(Tirar prints do fluxo completo de compra e do menu de ajuda)_
+| Tela Inicial | Jogos |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/2671c90a-fff5-4c00-a76e-ce7bee82de6d" alt="tela inicial" width="220"/> | <img src="https://github.com/user-attachments/assets/c4b0e1ec-b712-4f37-93d6-0d782429bea2" alt="jogos" width="220"/> |
+| **Compra** | **Reembolso** |
+| <img src="https://github.com/user-attachments/assets/66c6350c-eff5-4d30-858e-42c993b86aaf" alt="compra" width="220"/> | <img src="https://github.com/user-attachments/assets/77a59c9e-82aa-4643-b4a8-963755506c43" alt="reembolso" width="220"/> |
 
 ---
 
