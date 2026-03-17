@@ -120,11 +120,16 @@ async def mensagem(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ===== INICIA O BOT =====
 def main():
+    import sys
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, mensagem))
     print("SigmaBOT rodando no Telegram...")
-    app.run_polling()
+    try:
+        app.run_polling(drop_pending_updates=True)
+    except Exception as e:
+        print(f"Erro: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
